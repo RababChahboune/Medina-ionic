@@ -11,51 +11,24 @@
 
 <ion-content>
   <ion-list>
-    <ion-refresher >
+    <ion-refresher (ionRefresh)="refresh($event)">
       <ion-refresher-content></ion-refresher-content>
     </ion-refresher>
-  <ion-card>
-    <img src="../assets/img/1.jpg">
-    <ion-fab right top (click)="nagivateToMap()">
-      <button ion-fab margin>
-        <ion-icon name="pin"></ion-icon>
-      </button>
-    </ion-fab>
-    <ion-item>
-      <ion-icon name="information-circle" item-left large></ion-icon>
-      <h2>Rabat name</h2>
-      <p>Region name</p>
-    </ion-item>
-    <p padding> Description </p>
-    <ion-item>
-      <button ion-button icon-left clear item-right (click)="navigateToDetails()">
-        <ion-icon name="link"></ion-icon>
-        Read more
-      </button>
-    </ion-item>
-  </ion-card>
-
-  <ion-card>
-    <img src="../assets/img/1.jpg">
-    <ion-fab right top (click)="navigateToMap()">
-      <button ion-fab margin>
-        <ion-icon name="pin"></ion-icon>
-      </button>
-    </ion-fab>
-    <ion-item>
-      <ion-icon name="information-circle" item-left large></ion-icon>
-      <h2>Rabat name</h2>
-      <p>Region name</p>
-    </ion-item>
-    <p padding> Description </p>
-
-    <ion-item>
-      <button ion-button icon-left clear item-right (click)="navigateToDetails()">
-        <ion-icon name="link"></ion-icon>
-        Read more
-      </button>
-    </ion-item>
-  </ion-card>
+    <ion-card  *ngFor="let Anonce of Anonces; let i of index">
+      <img  src="http://192.168.42.183:4040/Images/Anonces/{{Anonce.Image}}" *ngIf="Anonce.Image">
+      <ion-item>
+        <ion-icon name="information-circle" item-left large></ion-icon>
+        <h2>Etablissement</h2>
+        <p>{{Anonce.Etablissement.Nom}}</p>
+      </ion-item>
+      <p padding> {{Anonce.Description | truncate : 20}}</p>
+      <ion-item>
+        <button ion-button icon-left clear item-right (click)="navigateToDetails(i)">
+          <ion-icon name="link"></ion-icon>
+          Read more
+        </button>
+      </ion-item>
+    </ion-card>
   </ion-list>
 
 </ion-content>

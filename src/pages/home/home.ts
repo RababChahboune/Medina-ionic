@@ -3,25 +3,42 @@ import { NavController } from 'ionic-angular';
 import {SettingsPage} from "../settings/settings";
 import {DetailPage} from "../detail/detail";
 import {MapPage} from "../map/map";
+import {HttpService} from "../../app/http.service";
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
 export class HomePage {
+  Anonces = [];
 
-  constructor(public navCtrl: NavController) {
-
+  constructor(private httpService : HttpService,public navCtrl: NavController) {
+    this.getAnonces();
   }
   navigateToSettings(){
-    console.log("Seeting nav");
     this.navCtrl.push(SettingsPage);
   }
-  navigateToDetails(){
-    this.navCtrl.push(DetailPage);
+  navigateToDetails(anonce){
+    this.navCtrl.push(DetailPage, {
+      Anonce : anonce,
+    });
   }
   navigateToMap(){
     this.navCtrl.push(MapPage);
+  }
+  getAnonces(){
+    this.httpService.getAnonces().subscribe(
+      data => {
+        this.Anonces = data.json();
+      },
+      error => {
+        console.log(error.json());
+      }
+    )
+  }
+  refresh(refresher){
+    this.getAnonces();
+    refresher.complete();
   }
 
 }

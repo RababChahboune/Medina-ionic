@@ -14,15 +14,19 @@ import {MapPage} from "../map/map";
   templateUrl: 'detail.html',
 })
 export class DetailPage {
-
+  Anonce : any;
   constructor(public navCtrl: NavController, public navParams: NavParams) {
+    this.Anonce = navParams.get('Anonce');
+    console.log(this.Anonce.Etablissement);
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad DetailPage');
   }
   navigateToMap(){
-    this.navCtrl.push(MapPage);
+    this.navCtrl.push(MapPage,{
+      Anonce : this.Anonce
+    });
   }
 
 }

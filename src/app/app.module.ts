@@ -17,12 +17,16 @@ import {CameraPage} from "../pages/camera/camera";
 import {SettingsPage} from "../pages/settings/settings";
 import {SignInPage} from "../pages/sign-in/sign-in";
 import {SignUpPage} from "../pages/sign-up/sign-up";
-import { Geolocation } from '@ionic-native/geolocation';
+import {Geolocation } from '@ionic-native/geolocation';
 import {Camera} from "@ionic-native/camera";
-
+import {HttpService} from "./http.service";
+import {LocalStorageModule} from "angular-2-local-storage";
+import { HttpModule } from '@angular/http';
+import { TruncatePipe } from '../pipes/truncate/truncate';
 
 @NgModule({
   declarations: [
+    TruncatePipe,
     MyApp,
     AboutPage,
     HomePage,
@@ -35,10 +39,17 @@ import {Camera} from "@ionic-native/camera";
     InfoPage,
     SignInPage,
     SignUpPage,
+    TruncatePipe
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    HttpModule,
+    IonicModule.forRoot(MyApp),
+    LocalStorageModule.withConfig({
+      prefix: 'Medina',
+      storageType: 'localStorage'
+      //storageType: 'sessionStorage'
+    }),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -60,6 +71,8 @@ import {Camera} from "@ionic-native/camera";
     SplashScreen,
     Geolocation,
     Camera,
+
+    HttpService,
     {provide: ErrorHandler, useClass: IonicErrorHandler}
   ]
 })

@@ -21,32 +21,18 @@
 
 <ion-content padding>
   <ion-list>
-    <ion-item>
+    <ion-item *ngFor="let Observation of Observations">
       <ion-thumbnail item-left>
-        <img src="../assets/img/3.jpg">
+        <img  src="http://192.168.42.183:4040/Images/Observations/{{Observation.Image}}" *ngIf="Observation.Image; else NONIMAGE">
+        <template #NONIMAGE> <img src="assets/img/no_image.jpg"/></template>
       </ion-thumbnail>
-      <p>Date</p>
-      <h2>Description</h2>
+      <p>{{Observation.created_at}}</p>
+      <h2>{{Observation.Commentaire}}</h2>
       <button ion-button item-right color="secondary">Done</button>
     </ion-item>
-    <ion-item>
-      <ion-thumbnail item-left>
-        <img src="../assets/img/3.jpg">
-      </ion-thumbnail>
-      <p>Date</p>
-      <h2>Description</h2>
-      <button ion-button item-right color="danger">Out of region</button>
-    </ion-item>
-    <ion-item>
-      <ion-thumbnail item-left>
-        <img src="../assets/img/3.jpg">
-      </ion-thumbnail>
-      <p>Date</p>
-      <h2>Description</h2>
-      <button ion-button item-right color="dark">Waiting</button>
-    </ion-item>
+
   </ion-list>
   <ion-fab center bottom>
-    <button ion-fab color="dark"><ion-icon name="camera"></ion-icon></button>
+    <button ion-fab color="dark"  (click)="navigateToCamera()"><ion-icon name="camera"></ion-icon></button>
   </ion-fab>
 </ion-content>

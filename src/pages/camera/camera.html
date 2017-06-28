@@ -18,18 +18,29 @@
 
 </ion-header>
 
-
 <ion-content>
-  <ion-card>
-    <img [src]="base64Image" *ngIf="base64Image" />
+  <form [formGroup]="cameraForm" (ngSubmit)="sendImage()">
+  <ion-card >
+    <img [src]="Observation" *ngIf="Observation; else NONIMAGE" />
+    <template #NONIMAGE> <img src="assets/img/no_image.jpg"/></template>
+    <ion-item>
+      <ion-label>Rubrique</ion-label>
+      <ion-select formControlName="Rubrique_id">
+        <ion-option *ngFor="let Rubrique of Rubriques" value="{{Rubrique.id}}">{{Rubrique.Nom}}</ion-option>
+      </ion-select>
+    </ion-item>
     <ion-card-content>
       <ion-card-title>
         Description
       </ion-card-title>
-      <ion-textarea placeholder="Enter a description"></ion-textarea>
+      <ion-textarea placeholder="Enter a description" formControlName="Commentaire"></ion-textarea>
     </ion-card-content>
   </ion-card>
-  <ion-fab bottom center >
-    <button ion-fab><ion-icon name="camera"></ion-icon></button>
+    <ion-fab bottom center (click)="takePicture()">
+      <button ion-fab color="dark" ><ion-icon name="camera"></ion-icon></button>
+    </ion-fab>
+  <ion-fab bottom right (click)="sendImage()">
+    <button ion-fab><ion-icon name="send"></ion-icon></button>
   </ion-fab>
+  </form>
 </ion-content>

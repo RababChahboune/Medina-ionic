@@ -15,21 +15,21 @@
 
 <ion-content >
 
-  <img src="../assets/img/1.jpg">
+  <img  src="http://192.168.42.183:4040/Images/Anonces/{{Anonce.Image}}" *ngIf="Anonce.Image">
   <ion-card>
-    <ion-fab right top (click)="navigateToMap()">
+    <ion-fab right top (click)="navigateToMap(Anonce)">
       <button ion-fab margin>
         <ion-icon name="pin"></ion-icon>
       </button>
     </ion-fab>
     <ion-item>
       <ion-icon name="information-circle" item-left large></ion-icon>
-      <h2>Etablissement name</h2>
-      <p>Region Name</p>
+      <h2>Etablissement</h2>
+      <p>{{Anonce.Etablissement.Nom}}</p>
     </ion-item>
 
     <p padding>
-      Full thread
+      {{Anonce.Description}}
     </p>
     <ion-item>
 
