@@ -11,7 +11,7 @@ import {InfoPage} from "../info/info";
 export class TabsPage {
 
   homeRoot = HomePage;
-  cameraRoot = CameraPage;
+  public cameraRoot = CameraPage;
   archiveRoot = ArchivePage;
   infoRoot = InfoPage;
   stillRoot = InfoPage;

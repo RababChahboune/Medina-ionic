@@ -24,7 +24,7 @@
     <ion-item *ngFor="let Observation of Observations">
       <ion-thumbnail item-left>
         <img  src="http://192.168.42.183:4040/Images/Observations/{{Observation.Image}}" *ngIf="Observation.Image; else NONIMAGE">
-        <template #NONIMAGE> <img src="assets/img/no_image.jpg"/></template>
+        <ng-template #NONIMAGE> <img src="assets/img/no_image.jpg"/></ng-template>
       </ion-thumbnail>
       <p>{{Observation.created_at}}</p>
       <h2>{{Observation.Commentaire}}</h2>

@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController } from 'ionic-angular';
+import {IonicPage, NavController, Tab} from 'ionic-angular';
 import {SettingsPage} from "../settings/settings";
 import {CameraPage} from "../camera/camera";
 import {HttpService} from "../../app/http.service";
+import {TabsPage} from "../tabs/tabs";
 
 /**
  * Generated class for the ArchivePage page.
@@ -18,7 +19,8 @@ import {HttpService} from "../../app/http.service";
 export class ArchivePage {
   Observations = [];
 
-  constructor(private httpService : HttpService,public navCtrl: NavController) {
+  constructor(private httpService : HttpService,public navCtrl: NavController, private tab: Tab) {
+    this.tab = this.navCtrl.parent;
     this.getObservations();
   }
 

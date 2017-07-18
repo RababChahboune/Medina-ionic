@@ -5,6 +5,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 import {Camera} from "@ionic-native/camera";
 import {HttpService} from "../../app/http.service";
 import {FormControl, FormGroup} from "@angular/forms";
+import {ArchivePage} from "../archive/archive";
 
 
 /**
@@ -54,24 +55,52 @@ export class CameraPage {
     });
   }
   sendImage(){
-      this.geolocation.getCurrentPosition().then((resp) => {
-      this.lat = resp.coords.latitude;
-      this.lng = resp.coords.longitude;
-      let Observation = {
-         Commentaire  : this.cameraForm.getRawValue().Commentaire,
-         coordonneeX  : this.lat,
-         coordonneeY  : this.lng,
-         Rubrique_id  : this.cameraForm.getRawValue().Rubrique_id,
-         Utilisateur_id  : this.httpService.getUser().id,
-         Image : this.ObservationImage,
-      }
-      this.httpService.sendObservation(Observation).subscribe(
-        data => {
-          console.log(data);
-        },error=>{
-          console.log(error);
-        }
-      );
+    console.log("Send Image");
+    /*let block = this.ObservationImage.split(";");
+    let contentType = block[0].split(":")[1];
+    let realData = block[1].split(",")[1];
+    let blob = this.b64toBlob(realData, contentType, 512);
+    let Observation = {
+      Commentaire  : this.cameraForm.getRawValue().Commentaire,
+      coordonneeX  : 33.6,
+      coordonneeY  : 6.6,
+      Rubrique_id  : this.cameraForm.getRawValue().Rubrique_id,
+      Utilisateur_id  : this.httpService.getUser().id,
+      Image : blob,
+    };
+    this.httpService.sendObservation(Observation).then(
+      response => {
+        console.log(response);
+        this.navCtrl.push(ArchivePage);
+      }).catch(e => {
+      console.log(e);
+      this.navCtrl.push(ArchivePage);
+    });*/
+
+    this.geolocation.getCurrentPosition().then((resp) => {
+        this.lat = resp.coords.latitude;
+        this.lng = resp.coords.longitude;
+        console.log("Coords : " + this.lat+","+this.lng);
+        let block = this.ObservationImage.split(";");
+        let contentType = block[0].split(":")[1];
+        let realData = block[1].split(",")[1];
+        let blob = this.b64toBlob(realData, contentType, 512);
+        let Observation = {
+          Commentaire  : this.cameraForm.getRawValue().Commentaire,
+          coordonneeX  : this.lat,
+          coordonneeY  : this.lng,
+          Rubrique_id  : this.cameraForm.getRawValue().Rubrique_id,
+          Utilisateur_id  : this.httpService.getUser().id,
+          Image : blob,
+        };
+        this.httpService.sendObservation(Observation).then(
+        response => {
+          console.log(response);
+          this.navCtrl.push(ArchivePage);
+        }).catch(e => {
+          console.log(e);
+          this.navCtrl.push(ArchivePage);
+        });
     }).catch((error) => {
       console.log('Error getting location', error);
     });
@@ -87,5 +116,28 @@ export class CameraPage {
       }
     )
   }
+  b64toBlob(b64Data, contentType, sliceSize) {
+  contentType = contentType || '';
+  sliceSize = sliceSize || 512;
+
+  let byteCharacters = atob(b64Data);
+  let byteArrays = [];
+
+  for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    let slice = byteCharacters.slice(offset, offset + sliceSize);
+
+    let byteNumbers = new Array(slice.length);
+    for (let i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
+
+    let byteArray = new Uint8Array(byteNumbers);
+
+    byteArrays.push(byteArray);
+  }
+
+  let blob = new Blob(byteArrays, {type: contentType});
+  return blob;
+}
 
 }

@@ -61,8 +61,27 @@ export class HttpService {
     return this.http.get(this.getHost('Anonces?include=Etablissement'),this.options)
   }
   sendObservation(Observation){
-    console.log(Observation);
-    return this.http.post(this.getHost('Observations'),Observation,this.options)
+    return new Promise((resolve, reject) => {
+      let xhr:XMLHttpRequest = new XMLHttpRequest();
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4) {
+          if (xhr.status === 200) {
+            resolve(<any>JSON.parse(xhr.response));
+          } else {
+            reject(xhr.response);
+          }
+        }
+      };
+      xhr.open('POST', this.getHost("Observations"), true);
+      let formData = new FormData();
+      formData.append('Image', Observation.Image,"ObservationImage");
+      formData.append('coordonneeX', Observation.coordonneeX);
+      formData.append('coordonneeY', Observation.coordonneeY);
+      formData.append('Utilisateur_id', Observation.Utilisateur_id);
+      formData.append('Rubrique_id', Observation.Rubrique_id);
+      formData.append('Commentaire', Observation.Commentaire);
+      xhr.send(formData);
+    });
   }
   getObservations(){
     return this.http.get(this.getHost('Observations?Utilisateur_id='+this.getUser().id),this.options)

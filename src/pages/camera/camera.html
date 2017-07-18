@@ -19,10 +19,10 @@
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="cameraForm" (ngSubmit)="sendImage()">
+  <form [formGroup]="cameraForm">
   <ion-card >
-    <img [src]="Observation" *ngIf="Observation; else NONIMAGE" />
-    <template #NONIMAGE> <img src="assets/img/no_image.jpg"/></template>
+    <img [src]="ObservationImage" *ngIf="ObservationImage; else NONIMAGE" />
+    <ng-template #NONIMAGE> <img src="assets/img/no_image.jpg"/></ng-template>
     <ion-item>
       <ion-label>Rubrique</ion-label>
       <ion-select formControlName="Rubrique_id">
